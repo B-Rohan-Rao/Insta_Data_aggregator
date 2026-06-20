@@ -23,11 +23,17 @@ export async function checkBackendHealth(): Promise<{ mongodb: string } | null> 
   return null;
 }
 
+export class HttpError extends Error {
+  status: number;
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+    this.name = "HttpError";
+  }
+}
+
 export async function analyzeCreator(username: string): Promise<AnalyzeResult> {
   const normalizedUsername = username.trim().toLowerCase();
-  
-  // Simulate network delay for nice loading screen transitions
-  await new Promise((resolve) => setTimeout(resolve, 2000));
   
   try {
     const response = await fetch(`${API_URL}/analyze/${normalizedUsername}`, {
@@ -47,10 +53,26 @@ export async function analyzeCreator(username: string): Promise<AnalyzeResult> {
         isMock: false,
       };
     } else {
-      // If server returned non-200 (e.g. 404, 400), throw to trigger mock fallback or error
-      throw new Error(`Server returned status: ${response.status}`);
+      let detail = `Server returned status: ${response.status}`;
+      try {
+        const errJson = await response.json();
+        if (errJson && errJson.detail) {
+          detail = typeof errJson.detail === 'string' ? errJson.detail : JSON.stringify(errJson.detail);
+        }
+      } catch (err) {
+        // Failed to parse JSON detail
+      }
+      throw new HttpError(response.status, detail);
     }
-  } catch (e) {
+  } catch (e: any) {
+    if (e instanceof HttpError) {
+      // Propagate backend HTTP validation/server errors directly to the UI
+      throw e;
+    }
+    
+    // Simulate network delay for nice loading screen transitions when falling back to mock
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    
     console.warn("Backend API unavailable or returned error, falling back to mock data.", e);
     
     // Check if the username exists in our mock profiles database
@@ -70,3 +92,4 @@ export async function analyzeCreator(username: string): Promise<AnalyzeResult> {
     };
   }
 }
+

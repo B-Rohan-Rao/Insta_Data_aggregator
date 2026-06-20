@@ -13,24 +13,6 @@ export default function AnalyticsCard({ analytics }: AnalyticsCardProps) {
 
   const metrics = [
     {
-      label: "Average Likes",
-      value: formatNumber(analytics.avg_likes),
-      description: "Average likes per post",
-      color: "border-l-indigo-500",
-    },
-    {
-      label: "Average Comments",
-      value: formatNumber(analytics.avg_comments),
-      description: "Average comments per post",
-      color: "border-l-purple-500",
-    },
-    {
-      label: "Posting Frequency",
-      value: `${analytics.posting_frequency_days.toFixed(1)} Days`,
-      description: "Avg days between posts",
-      color: "border-l-cyan-500",
-    },
-    {
       label: "Posts Analyzed",
       value: analytics.total_posts_analyzed,
       description: "Sample volume size",
@@ -60,7 +42,7 @@ export default function AnalyticsCard({ analytics }: AnalyticsCardProps) {
         Performance Analytics
       </h3>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {metrics.map((item, idx) => (
           <div
             key={idx}

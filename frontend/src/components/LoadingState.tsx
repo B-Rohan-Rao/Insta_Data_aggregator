@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 interface LoadingStateProps {
   username: string;
+  onCancel?: () => void;
 }
 
 const STAGES = [
@@ -13,7 +14,7 @@ const STAGES = [
   "Generating insights..."
 ];
 
-export default function LoadingState({ username }: LoadingStateProps) {
+export default function LoadingState({ username, onCancel }: LoadingStateProps) {
   const [currentStage, setCurrentStage] = useState(0);
   const [progress, setProgress] = useState(0);
 
@@ -54,7 +55,7 @@ export default function LoadingState({ username }: LoadingStateProps) {
       <p className="text-sm text-slate-500 mb-8">Please wait while we gather creator intelligence.</p>
 
       {/* Progress Card */}
-      <div className="w-full bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
+      <div className="w-full bg-white rounded-2xl border border-slate-100 p-6 shadow-sm mb-6">
         <div className="w-full bg-slate-100 rounded-full h-2 mb-6 overflow-hidden">
           <div 
             className="bg-gradient-to-r from-indigo-600 to-purple-600 h-full rounded-full transition-all duration-300 ease-out"
@@ -92,6 +93,19 @@ export default function LoadingState({ username }: LoadingStateProps) {
           })}
         </div>
       </div>
+
+      {/* Cancel Button */}
+      {onCancel && (
+        <button
+          onClick={onCancel}
+          className="inline-flex items-center justify-center px-4 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 hover:border-slate-300 text-slate-700 font-bold rounded-xl text-xs transition-all gap-1.5 cursor-pointer shadow-sm"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Cancel & Go Back
+        </button>
+      )}
     </div>
   );
 }

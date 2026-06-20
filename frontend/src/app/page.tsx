@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { analyzeCreator, checkBackendHealth, AnalyzeResult } from "../lib/api";
 import LoadingState from "../components/LoadingState";
 import ErrorState from "../components/ErrorState";
@@ -21,6 +21,7 @@ export default function Home() {
   const [result, setResult] = useState<AnalyzeResult | null>(null);
   const [backendHealth, setBackendHealth] = useState<{ mongodb: string } | null>(null);
   const [lastAnalysisTime, setLastAnalysisTime] = useState<string>("");
+  const activeRequestRef = useRef<string | null>(null);
 
   useEffect(() => {
     // Initial health check
@@ -32,11 +33,16 @@ export default function Home() {
   const handleSearch = async (searchName: string) => {
     if (!searchName.trim()) return;
     
+    activeRequestRef.current = searchName;
     setAnalyzingUsername(searchName);
     setState("LOADING");
     
     try {
       const data = await analyzeCreator(searchName);
+      
+      if (activeRequestRef.current !== searchName) {
+        return;
+      }
       
       // Determine if there was an explicit profile error or if the account is private
       if (data.profile.username === "" || !data.profile.follower_count) {
@@ -52,13 +58,37 @@ export default function Home() {
         second: "2-digit",
       }) + " " + new Date().toLocaleDateString("en-US", { month: "short", day: "numeric" }));
       setState("RESULTS");
-    } catch (e) {
-      setErrorType("backend_down");
+    } catch (e: any) {
+      if (activeRequestRef.current !== searchName) {
+        return;
+      }
+      console.error("Analysis request failed:", e);
+      if (e && e.status) {
+        const msg = (e.message || "").toLowerCase();
+        if (e.status === 400) {
+          if (msg.includes("private")) {
+            setErrorType("private");
+          } else {
+            setErrorType("not_found");
+          }
+        } else if (e.status === 404) {
+          setErrorType("not_found");
+        } else {
+          if (msg.includes("rate limit") || msg.includes("block") || msg.includes("unavailable")) {
+            setErrorType("instagram_down");
+          } else {
+            setErrorType("backend_down");
+          }
+        }
+      } else {
+        setErrorType("backend_down");
+      }
       setState("ERROR");
     }
   };
 
   const handleReset = () => {
+    activeRequestRef.current = null;
     setUsername("");
     setResult(null);
     setState("LANDING");
@@ -175,7 +205,9 @@ export default function Home() {
           </div>
         )}
 
-        {state === "LOADING" && <LoadingState username={analyzingUsername} />}
+        {state === "LOADING" && (
+          <LoadingState username={analyzingUsername} onCancel={handleReset} />
+        )}
 
         {state === "ERROR" && (
           <ErrorState
@@ -214,11 +246,23 @@ export default function Home() {
               {/* SECTION 2 - KPI METRICS ROW */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <MetricCard
-                  value={formatCount(result.profile.follower_count)}
-                  label="Followers"
-                  trend="High Reach"
-                  trendDirection="up"
-                  iconType="followers"
+                  value={`${result.analytics.posting_frequency_days.toFixed(1)} Days`}
+                  label="Posting Frequency"
+                  trend={
+                    result.analytics.posting_frequency_days <= 2.2
+                      ? "Highly Consistent"
+                      : result.analytics.posting_frequency_days <= 4.5
+                      ? "Moderately Consistent"
+                      : "Occasional Poster"
+                  }
+                  trendDirection={
+                    result.analytics.posting_frequency_days <= 2.2
+                      ? "up"
+                      : result.analytics.posting_frequency_days <= 4.5
+                      ? "neutral"
+                      : "down"
+                  }
+                  iconType="frequency"
                 />
                 <MetricCard
                   value={`${result.analytics.engagement_rate.toFixed(2)}%`}
@@ -243,17 +287,17 @@ export default function Home() {
                 />
               </div>
 
-              {/* SECTIONS 3, 4, 5 - ANALYTICS, LANGUAGE & INSIGHTS GRID */}
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* SECTIONS 3 & 4 - ANALYTICS & LANGUAGE GRID (50% / 50%) */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Section 3: Performance Analytics */}
                 <AnalyticsCard analytics={result.analytics} />
 
                 {/* Section 4: Language Distribution */}
                 <LanguageCard username={result.profile.username} />
-
-                {/* Section 5: Creator Insights */}
-                <InsightsCard analytics={result.analytics} posts={result.recent_posts} />
               </div>
+
+              {/* SECTION 5 - CREATOR INSIGHTS (Full Width Below) */}
+              <InsightsCard analytics={result.analytics} posts={result.recent_posts} />
 
               {/* SECTION 6 - RECENT POSTS GRID */}
               <PostsGrid posts={result.recent_posts} followerCount={result.profile.follower_count} />
