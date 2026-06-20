@@ -7,6 +7,7 @@ import shutil
 import tempfile
 import time
 import re
+import sqlite3
 from datetime import datetime
 from app.config import settings
 from typing import Any, Dict, List, Optional
@@ -382,6 +383,116 @@ class InstagramService:
         except Exception as e:
             raise Exception(f"Instaloader posts fetch failed: {e}")
 
+    def _detect_instagram_chrome_profile(self) -> str:
+        """
+        Enumerates all Chrome profile directories, scores each by Instagram
+        session cookie presence, and returns the path of the highest-scoring profile.
+
+        Scoring:
+            sessionid  = +10
+            csrftoken  = +5
+            ds_user_id = +5
+
+        Ties are broken by largest Cookies database size.
+        Falls back to the largest Cookies DB if no session is found, then to Default.
+        """
+        src_dir = os.path.join(
+            os.path.expanduser("~"), "AppData", "Local", "Google", "Chrome", "User Data"
+        )
+
+        # Enumerate candidate profile directories in sorted order
+        candidates = []
+        if os.path.isdir(src_dir):
+            for entry in sorted(os.listdir(src_dir)):
+                full_path = os.path.join(src_dir, entry)
+                if (entry == "Default" or entry.startswith("Profile ")) and os.path.isdir(full_path):
+                    candidates.append((entry, full_path))
+
+        # Each entry: (score, cookies_size, profile_name, profile_path, found_cookies)
+        scored: list = []
+
+        for profile_name, profile_path in candidates:
+            # Prefer Network/Cookies (Chrome 96+), fall back to legacy Cookies location
+            cookies_path = os.path.join(profile_path, "Network", "Cookies")
+            if not os.path.exists(cookies_path):
+                cookies_path = os.path.join(profile_path, "Cookies")
+
+            size = 0
+            if os.path.exists(cookies_path):
+                try:
+                    size = os.path.getsize(cookies_path)
+                except Exception:
+                    pass
+
+            score = 0
+            found_cookies: list = []
+
+            if os.path.exists(cookies_path):
+                tmp = None
+                try:
+                    tmp = tempfile.mktemp(suffix=".db")
+                    try:
+                        shutil.copy2(cookies_path, tmp)
+                    except Exception:
+                        with open(cookies_path, 'rb') as fin:
+                            with open(tmp, 'wb') as fout:
+                                fout.write(fin.read())
+
+                    conn = sqlite3.connect(tmp)
+                    cur = conn.cursor()
+                    cur.execute(
+                        "SELECT name FROM cookies "
+                        "WHERE host_key LIKE '%instagram.com%' "
+                        "AND name IN ('sessionid', 'csrftoken', 'ds_user_id')"
+                    )
+                    found = {row[0] for row in cur.fetchall()}
+                    conn.close()
+
+                    if "sessionid"  in found:
+                        score += 10
+                        found_cookies.append("sessionid")
+                    if "csrftoken"  in found:
+                        score += 5
+                        found_cookies.append("csrftoken")
+                    if "ds_user_id" in found:
+                        score += 5
+                        found_cookies.append("ds_user_id")
+
+                except Exception as e:
+                    logger.warning(f"Could not read cookies for Chrome profile {profile_name}: {e}")
+                finally:
+                    if tmp:
+                        try:
+                            os.unlink(tmp)
+                        except Exception:
+                            pass
+
+            scored.append((score, size, profile_name, profile_path, found_cookies))
+
+        if not scored:
+            default_path = os.path.join(src_dir, "Default")
+            logger.warning("Selected Chrome profile: Default | Reason: no profile directories found")
+            return default_path
+
+        # Sort by score descending, then by cookies size descending (tie-break)
+        scored.sort(key=lambda x: (x[0], x[1]), reverse=True)
+        best_score, best_size, best_name, best_path, best_cookies = scored[0]
+
+        if best_score > 0:
+            logger.warning(
+                f"Selected Chrome profile: {best_name} | "
+                f"Score: {best_score} | "
+                f"Cookies found: {', '.join(best_cookies)}"
+            )
+        else:
+            logger.warning(
+                f"Selected Chrome profile: {best_name} | "
+                f"Score: 0 (no Instagram session detected) | "
+                f"Reason: fallback to largest Cookies database ({best_size:,} B)"
+            )
+
+        return best_path
+
     def _copy_chrome_profile(self) -> str:
         src_dir = os.path.join(os.path.expanduser("~"), "AppData", "Local", "Google", "Chrome", "User Data")
         dest_dir = tempfile.mkdtemp(prefix="chrome_profile_copy_")
@@ -396,7 +507,7 @@ class InstagramService:
             
         default_dest = os.path.join(dest_dir, "Default")
         os.makedirs(default_dest, exist_ok=True)
-        default_src = os.path.join(src_dir, "Default")
+        default_src = self._detect_instagram_chrome_profile()
         
         # 2. Preferences
         pref_src = os.path.join(default_src, "Preferences")
