@@ -1,0 +1,54 @@
+# Environment
+.env
+.env.*
+*.env
+
+# Python
+**/__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
+.next/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Agent / AI files
+AGENTS.md
+agents.md
+CLAUDE.md
+claude.md
+.cursor/
+.copilot/
+.gemini/
+.anthropic/
+.openai/
+.windsurf/
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+scratch/
+*.tmp
+
+# Playwright
+playwright-report/
+test-results/
+
+# Local databases
+*.sqlite
+*.db

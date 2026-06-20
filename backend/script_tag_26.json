@@ -1,0 +1,331 @@
+{
+  "require": [
+    [
+      "ScheduledServerJS",
+      "handle",
+      null,
+      [
+        {
+          "__bbox": {
+            "require": [
+              [
+                "RelayPrefetchedStreamCache",
+                "next",
+                [],
+                [
+                  "adp_PolarisLoggedOutDesktopWWWProfilePostsTabContentQueryRelayPreloader_6a364b68748191671616572",
+                  {
+                    "__bbox": {
+                      "complete": true,
+                      "result": {
+                        "data": {
+                          "xig_user_by_username": {
+                            "pk": "2323125263",
+                            "polaris_ordered_timeline_connection": {
+                              "edges": [
+                                {
+                                  "node": {
+                                    "__typename": "XIGPolarisVideoMedia",
+                                    "__isXIGPolarisMedia": "XIGPolarisVideoMedia",
+                                    "pk": "3827377793068096459",
+                                    "code": "DUdk9MRCtvL",
+                                    "accessibility_caption": "Video by Figuring Out with Raj Shamani on February 07, 2026.",
+                                    "caption": {
+                                      "text": "Comment \u2018Politics\u2019 and I\u2019ll personally DM you the full conversation.\n\nDo you think the world is moving closer to a major global conflict?\n\nIn today\u2019s episode, our guest is @adityasaidwhat, doctor and geopolitics speaker, breaking down global power, conflict, and strategy with blunt clarity.\n\nHere\u2019s what we discussed:\n-Whether Russia can realistically reclaim superpower status and how close the world is to a NATO nuclear escalation\n-Why Greenland has suddenly become geopolitically critical \u2014 and what global power players (including tech leaders) see in it\n-The real significance of the India\u2013EU \u201cmother of all deals,\u201d and what it could mean for India\u2019s economy and consumers\n-Why China and India are unlikely to ever be allies, and why Taiwan could become the next major global flashpoint\n-How shifting US priorities, Iran sanctions, and weakening global institutions create warnings India cannot afford to ignore\n\nCatch the full episode here:\nYouTube Channel: Raj Shamani\nSpotify Channel: Raj Shamani Figuring Out\n\nUntil then, keep figuring out! \ud83d\ude80"
+                                    },
+                                    "display_uri": "https://scontent.cdninstagram.com/v/t51.82787-15/626222758_18043162406723960_4051854244920524479_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=OvqMDp-wdeoQ7kNvwFCX2zj&_nc_oc=AdrfqJSvKxBJvahSD4l-iBW5JmTP-r0R1XpILzK90xalcEU6_SU_nwwJSfxmO1t0G14&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AP0aIV2j3oQfLs5pNyeNFQ&_nc_ss=7fa8c&oh=00_Af8x4H1PaDQXxdWW6xgVr_GEz8IXS4MT6PKK00KJ5AEEEQ&oe=6A3C28D6",
+                                    "media_type": 2,
+                                    "product_type": "clips",
+                                    "user": {
+                                      "pk": "51609571959",
+                                      "username": "figuringout.co",
+                                      "id": "17841451718771196"
+                                    },
+                                    "id": "POLARIS_3827377793068096459"
+                                  },
+                                  "cursor": "AQHSq_OWrqW0YhPyESLEVs3XxGhluUxBkbQ88RjFOHLfXzy0u9qp8g7qG4-DNvdit3pJ7A9Mr9QXKuul0PKujzZRhQ"
+                                },
+                                {
+                                  "node": {
+                                    "__typename": "XIGPolarisVideoMedia",
+                                    "__isXIGPolarisMedia": "XIGPolarisVideoMedia",
+                                    "pk": "3804930649887429691",
+                                    "code": "DTN1ERFiVQ7",
+                                    "accessibility_caption": "Video by Aditya singh on January 07, 2026.",
+                                    "caption": {
+                                      "text": "no cap even peter thiel is actually funding this\u2026\n\n1. Greenland \u2018Freedom City\u2019? Rich donors push Trump for a tech hub up north - April 2025\n\nhttps://www.reuters.com/world/europe/greenland-freedom-city-rich-donors-push-trump-tech-hub-up-north-2025-04-10/\n\n2. Funding of Praxis (Including funds of both thiel and altman)\n\nhttps://www.vanityfair.com/news/praxis-dryden-brown/"
+                                    },
+                                    "display_uri": "https://scontent.cdninstagram.com/v/t51.71878-15/613074133_1193511562382676_2405911496544449748_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=omNQBNQ8oykQ7kNvwGi5d6z&_nc_oc=AdoYN6vj79GH4ZS7cjGKVL8K9JXU5eKX2UYfCBJ-GlboLsaDsGbqAlt6_3fcMRhEUdQ&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AP0aIV2j3oQfLs5pNyeNFQ&_nc_ss=7fa8c&oh=00_Af9fzaav1tCdtyj-AzMEVYGJOlAQUl15sKR-jeyrKBBslQ&oe=6A3C1BE1",
+                                    "media_type": 2,
+                                    "product_type": "clips",
+                                    "user": {
+                                      "pk": "2323125263",
+                                      "username": "adityasaidwhat",
+                                      "id": "17841402317910390"
+                                    },
+                                    "id": "POLARIS_3804930649887429691"
+                                  },
+                                  "cursor": "AQHSuJTMLBglkq7117jeCFINecDL18c5nE4oNGVr6_4EpuguHBaIFaPYTfj-I4y8T6TdwsoDrsEJ1a_6tdM52x8r0Q"
+                                },
+                                {
+                                  "node": {
+                                    "__typename": "XIGPolarisVideoMedia",
+                                    "__isXIGPolarisMedia": "XIGPolarisVideoMedia",
+                                    "pk": "3801202923644985514",
+                                    "code": "DTAletfCSCq",
+                                    "accessibility_caption": "Video by Aditya singh on January 02, 2026.",
+                                    "caption": {
+                                      "text": "What do you think chat\u2026?"
+                                    },
+                                    "display_uri": "https://scontent.cdninstagram.com/v/t51.71878-15/610501594_1237296055127810_4224504743482581333_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=NUzK-yioTZAQ7kNvwEQL3CX&_nc_oc=Adr21KArqMjesdXCZ7lMC7aRHMvL76iC8zzdfhLKf4FHFZBbvPXMAh69CgyCTP-5N-o&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AP0aIV2j3oQfLs5pNyeNFQ&_nc_ss=7fa8c&oh=00_Af_JnFd3M_fRrBELdoDqvB-OA3kQ_3nmIyBKRk-_kcSbCw&oe=6A3C1F35",
+                                    "media_type": 2,
+                                    "product_type": "clips",
+                                    "user": {
+                                      "pk": "2323125263",
+                                      "username": "adityasaidwhat",
+                                      "id": "17841402317910390"
+                                    },
+                                    "id": "POLARIS_3801202923644985514"
+                                  },
+                                  "cursor": "AQHSi-zjNoECNMyPFJAk4059Q4PLKB86Yojf-hDjz09lmgi85joTtlbnuPOmmASsZ6tEu71_2gFWKm9U_8MM7dWjtg"
+                                },
+                                {
+                                  "node": {
+                                    "__typename": "XIGPolarisVideoMedia",
+                                    "__isXIGPolarisMedia": "XIGPolarisVideoMedia",
+                                    "pk": "3921301529963123686",
+                                    "code": "DZrQvcupdPm",
+                                    "accessibility_caption": "Video by Aditya singh on June 16, 2026. May be a meme of one or more people, beard and text that says 'Real reason reason behind E100 (Notjust (Not just one leader)'.",
+                                    "caption": {
+                                      "text": "Link is in my bio..\n\n#ad #paidpromo"
+                                    },
+                                    "display_uri": "https://scontent.cdninstagram.com/v/t51.71878-15/721151762_996338936349626_702531998009270379_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=wlw5NgSrwFEQ7kNvwFgBJ-1&_nc_oc=AdpI9UWTK80HHArWrdYPetZxsJLz6hvMVppKqUONkf8zdbzHvQGAKx7hjk1qD3t_6tA&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AP0aIV2j3oQfLs5pNyeNFQ&_nc_ss=7fa8c&oh=00_Af9w5bud-NjE8leIyDZEeoR9v0T8YedXqHKNAdgWGF-UsQ&oe=6A3C06B4",
+                                    "media_type": 2,
+                                    "product_type": "clips",
+                                    "user": {
+                                      "pk": "2323125263",
+                                      "username": "adityasaidwhat",
+                                      "id": "17841402317910390"
+                                    },
+                                    "id": "POLARIS_3921301529963123686"
+                                  },
+                                  "cursor": "AQHSqGYccXG2sdAvkrErNY5PayXY6iwsXtZ8h3jqnd7v1eW5qe4BiWJigCYUMDo2LpUmnW6H1PfavLI_krGggNVwbQ"
+                                },
+                                {
+                                  "node": {
+                                    "__typename": "XIGPolarisVideoMedia",
+                                    "__isXIGPolarisMedia": "XIGPolarisVideoMedia",
+                                    "pk": "3920850185162641200",
+                                    "code": "DZpqHhIJM8w",
+                                    "accessibility_caption": "Video by Aditya singh on June 16, 2026. May be an image of text.",
+                                    "caption": {
+                                      "text": "Again\u2026not a financial advice"
+                                    },
+                                    "display_uri": "https://scontent.cdninstagram.com/v/t51.71878-15/724691305_1324873863105122_8629473318181351193_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=104&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=vEI8RStoyq0Q7kNvwF6xW-o&_nc_oc=Adot41S-0eOtkt703wmPJ6agsmE39NLoGnSQ3pMUnqddb_0-jRcvhsHPKesn_YFusHM&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AP0aIV2j3oQfLs5pNyeNFQ&_nc_ss=7fa8c&oh=00_Af8-Eczrj6lJokCorNxpH6V2E-Sd9Ck9Pygt_ak0_jFggg&oe=6A3C363A",
+                                    "media_type": 2,
+                                    "product_type": "clips",
+                                    "user": {
+                                      "pk": "2323125263",
+                                      "username": "adityasaidwhat",
+                                      "id": "17841402317910390"
+                                    },
+                                    "id": "POLARIS_3920850185162641200"
+                                  },
+                                  "cursor": "AQHSaK5PcQ1CuFwGry91uR0giqP7ooji8iNg4vC1kvrsepVuzk1y4VR-q3CLqXmjl0QuCH6w6o9CwPTomToTurz5Pw"
+                                },
+                                {
+                                  "node": {
+                                    "__typename": "XIGPolarisVideoMedia",
+                                    "__isXIGPolarisMedia": "XIGPolarisVideoMedia",
+                                    "pk": "3920736181027137765",
+                                    "code": "DZpQMigJOjl",
+                                    "accessibility_caption": "Video by Aditya singh on June 16, 2026. May be a meme of one or more people, beard, slow loris and text that says 'Why China can never trust India.. (It's not economic)'.",
+                                    "caption": {
+                                      "text": "Even my dog was surprised"
+                                    },
+                                    "display_uri": "https://scontent.cdninstagram.com/v/t51.71878-15/724672758_2708171239566196_696521689033709862_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=dn7pXbAYEiYQ7kNvwEjL_3V&_nc_oc=AdrIPzESDIVWwn2VQTEWe0L1p_KsWfiuXrbKQl4ZvV_9a0yJMwQIkMdXd47bZtWIVMQ&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AP0aIV2j3oQfLs5pNyeNFQ&_nc_ss=7fa8c&oh=00_Af-6Xi9NUaF1pF4taKjfh2Xn-_eaf5nqux8u6mBq9VgELg&oe=6A3C357E",
+                                    "media_type": 2,
+                                    "product_type": "clips",
+                                    "user": {
+                                      "pk": "2323125263",
+                                      "username": "adityasaidwhat",
+                                      "id": "17841402317910390"
+                                    },
+                                    "id": "POLARIS_3920736181027137765"
+                                  },
+                                  "cursor": "AQHSJOgYgA4py0kyVO8NXxzFZj9Z1i22H7IJzVR6kOKojJqIbhhRvH28-jRrBGaW269wiaAxh6XU4eVQmDR1nyVckQ"
+                                },
+                                {
+                                  "node": {
+                                    "__typename": "XIGPolarisVideoMedia",
+                                    "__isXIGPolarisMedia": "XIGPolarisVideoMedia",
+                                    "pk": "3920112041723385037",
+                                    "code": "DZnCSHep1TN",
+                                    "accessibility_caption": "Video by Aditya singh on June 15, 2026. May be a meme of one or more people, beard, poster and text that says 'Indian Politics>>Netflix (Why they can't fire Dharmendra Pradhan)'.",
+                                    "caption": {
+                                      "text": "Will he be sacked in the reshuffle?"
+                                    },
+                                    "display_uri": "https://scontent.cdninstagram.com/v/t51.71878-15/724276247_978107581655855_3982768898709158101_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=100&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=geE5FB9LBFgQ7kNvwEC4NkS&_nc_oc=AdpnOhw5Vh9goDUIgCDucdjIC_Wj6Z_4x7ldvtsL_exBnKXbaV5CpEo7w5WkGRxWZVw&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AP0aIV2j3oQfLs5pNyeNFQ&_nc_ss=7fa8c&oh=00_Af-6gajP2YqOc5dR0DcujYl2Ms5XEy1mSAfxDuEyj9hgTA&oe=6A3C15BE",
+                                    "media_type": 2,
+                                    "product_type": "clips",
+                                    "user": {
+                                      "pk": "2323125263",
+                                      "username": "adityasaidwhat",
+                                      "id": "17841402317910390"
+                                    },
+                                    "id": "POLARIS_3920112041723385037"
+                                  },
+                                  "cursor": "AQHSdHnsVlapEmDJG_4VoZbAfU0-xZWdQoEZSgK7Tm0ONqPscnAnUvLUohuY5pkXO8tnAKgm2pSUTOocn-mERR8PPg"
+                                },
+                                {
+                                  "node": {
+                                    "__typename": "XIGPolarisVideoMedia",
+                                    "__isXIGPolarisMedia": "XIGPolarisVideoMedia",
+                                    "pk": "3919386528499204341",
+                                    "code": "DZkdUgopYD1",
+                                    "accessibility_caption": "Video by Aditya singh on June 14, 2026. May be a selfie of \u200eone or more people, beard, olive oil and \u200etext that says '\u200eHow brand fool you with 'NoMaida'NoPalmOilP' \u05e1\u05de' Maida' 'N Palm Oil' (Guess the brands\u200e'\u200e\u200e.",
+                                    "caption": {
+                                      "text": "Check out fssai\u2019s website for the list of brands."
+                                    },
+                                    "display_uri": "https://scontent.cdninstagram.com/v/t51.71878-15/724239519_4445829909017003_8674525215967608231_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=LOrFWB5-7H0Q7kNvwFRBP60&_nc_oc=Ado8qOccbuHRpml_YZR33hWJWzSpM4yIg5UvfxsxObzFfFXccBGVFhExY_414Pr2Lyo&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AP0aIV2j3oQfLs5pNyeNFQ&_nc_ss=7fa8c&oh=00_Af-UwToSqkXQyvFGaGepAlB4ciNKUCkilwQiMoZ6nauc9Q&oe=6A3C35EB",
+                                    "media_type": 2,
+                                    "product_type": "clips",
+                                    "user": {
+                                      "pk": "2323125263",
+                                      "username": "adityasaidwhat",
+                                      "id": "17841402317910390"
+                                    },
+                                    "id": "POLARIS_3919386528499204341"
+                                  },
+                                  "cursor": "AQHS7Hj6mLB9y9UqRIY6-dgFHDfrgMwuIEnz8eZ1ammD8WY7SlXngVigOqoUUEH5H5nTQPJBeLn0AX2dw-pUTlk6NQ"
+                                },
+                                {
+                                  "node": {
+                                    "__typename": "XIGPolarisVideoMedia",
+                                    "__isXIGPolarisMedia": "XIGPolarisVideoMedia",
+                                    "pk": "3918441050833576306",
+                                    "code": "DZhGV_8PmFy",
+                                    "accessibility_caption": "Video by Aditya singh on June 13, 2026. May be a meme of one or more people, beard and text that says 'Most dangerous point in \u0391\u0399 bubble.. (Google IPO)'.",
+                                    "caption": {
+                                      "text": "Its not an IPO ofcourse\u2026but they are selling"
+                                    },
+                                    "display_uri": "https://scontent.cdninstagram.com/v/t51.71878-15/720378117_1306504711636673_1165620719365464200_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=106&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=LnJBPgBs0-8Q7kNvwEMprRK&_nc_oc=AdqqugE8N66Do4ji3xzaA8Tf5-Z7dH3HWKgIip_S4v13jWF0gNJIxFH2ATrxPOuy8A0&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AP0aIV2j3oQfLs5pNyeNFQ&_nc_ss=7fa8c&oh=00_Af9ofoKXi1PTpSruyH_5zjqD7Kro4f9lD2n47FM634IoIQ&oe=6A3C2571",
+                                    "media_type": 2,
+                                    "product_type": "clips",
+                                    "user": {
+                                      "pk": "2323125263",
+                                      "username": "adityasaidwhat",
+                                      "id": "17841402317910390"
+                                    },
+                                    "id": "POLARIS_3918441050833576306"
+                                  },
+                                  "cursor": "AQHSAGu-lmWbVE-9Iq5FfZrBcYLb-QGDKF5MEQhosFpqzNxC6kkxm2MxgvW3vp4sAsPIu_hz_2BnYqYRLX-a_fvmtg"
+                                },
+                                {
+                                  "node": {
+                                    "__typename": "XIGPolarisVideoMedia",
+                                    "__isXIGPolarisMedia": "XIGPolarisVideoMedia",
+                                    "pk": "3917947758831547675",
+                                    "code": "DZfWLp9sTUb",
+                                    "accessibility_caption": "Video by Aditya singh on June 12, 2026. May be a meme of money and text that says 'Why money was invented Not Mansplaining'.",
+                                    "caption": {
+                                      "text": "Not mansplaining"
+                                    },
+                                    "display_uri": "https://scontent.cdninstagram.com/v/t51.71878-15/723041294_4453496638214898_7031856095389103752_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=105&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=_jLCIfrSHOkQ7kNvwEAAL7D&_nc_oc=AdoJBJQTXaELCSJmYS_u3Gq20pdSKN14223dM2SJM4Njpgf7RYLY2wXYtPwWbqJgBIk&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AP0aIV2j3oQfLs5pNyeNFQ&_nc_ss=7fa8c&oh=00_Af8sFT8Ddy-tWXnd-E6apmyFoiTROFR3X-W28dBwXh39Hw&oe=6A3C23D2",
+                                    "media_type": 2,
+                                    "product_type": "clips",
+                                    "user": {
+                                      "pk": "2323125263",
+                                      "username": "adityasaidwhat",
+                                      "id": "17841402317910390"
+                                    },
+                                    "id": "POLARIS_3917947758831547675"
+                                  },
+                                  "cursor": "AQHSXx21rs3xp7gaaerzwzvxKOkPET-JXiOOeu-TRBxUKy3vDAaWEPX_ND0YUmB7hkyJvVVS_jzjTa-phR-e_6cdog"
+                                },
+                                {
+                                  "node": {
+                                    "__typename": "XIGPolarisVideoMedia",
+                                    "__isXIGPolarisMedia": "XIGPolarisVideoMedia",
+                                    "pk": "3916474152967805257",
+                                    "code": "DZaHH3jpRlJ",
+                                    "accessibility_caption": "Video by Aditya singh on June 10, 2026. May be a meme of one or more people, beard and text that says 'Have a Startup idea?.. Thiscollegewillfundyou! This college will fund you!'.",
+                                    "caption": {
+                                      "text": "link in bio.\n\nAd -"
+                                    },
+                                    "display_uri": "https://scontent.cdninstagram.com/v/t51.71878-15/720199874_1700391547914177_7747547445864913066_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=107&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=M4neSoQOoLMQ7kNvwF4pREj&_nc_oc=AdpPh6ZB4zFZrzVm1ogccBiYnau5uhCNTNpiKpL9GQRXepUDg-YYViMxYzMQlSSVYHc&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AP0aIV2j3oQfLs5pNyeNFQ&_nc_ss=7fa8c&oh=00_Af82uC_P62ThJYItkK_liFE55sdMHJutYVqyoX2TWdyZPA&oe=6A3C310D",
+                                    "media_type": 2,
+                                    "product_type": "clips",
+                                    "user": {
+                                      "pk": "2323125263",
+                                      "username": "adityasaidwhat",
+                                      "id": "17841402317910390"
+                                    },
+                                    "id": "POLARIS_3916474152967805257"
+                                  },
+                                  "cursor": "AQHS5tWETx_LtqgsodeJx7yAGjIU2WPckc9_oImRJ6vPPRA83A2qF32m4B6kuwOb1GnhJQ0F2t240gQ2Dl8eyYheog"
+                                },
+                                {
+                                  "node": {
+                                    "__typename": "XIGPolarisVideoMedia",
+                                    "__isXIGPolarisMedia": "XIGPolarisVideoMedia",
+                                    "pk": "3915841530650564255",
+                                    "code": "DZX3SAHJhaf",
+                                    "accessibility_caption": "Video by Aditya singh on June 09, 2026. May be a meme of one or more people, beard, fire and text that says 'POK POK is is burning (Because Asim munir wants to impress China'.",
+                                    "caption": {
+                                      "text": "What do you make of this situation?.."
+                                    },
+                                    "display_uri": "https://scontent.cdninstagram.com/v/t51.71878-15/720387009_3606962746133725_3399250195773038407_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=102&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=82r7UtGjx_sQ7kNvwHb4Mc_&_nc_oc=AdrxW3Kp70U9lJ-GmwzN2VMnDB-mWxhvZkkNcah8q2sRcHI5dYTJsBDc6FUhIsq8DAs&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=AP0aIV2j3oQfLs5pNyeNFQ&_nc_ss=7fa8c&oh=00_Af_eMJstTYxaKeCX4NkQ1GlcMwaBPME5c4AVWSsvaH4lvA&oe=6A3C0B13",
+                                    "media_type": 2,
+                                    "product_type": "clips",
+                                    "user": {
+                                      "pk": "2323125263",
+                                      "username": "adityasaidwhat",
+                                      "id": "17841402317910390"
+                                    },
+                                    "id": "POLARIS_3915841530650564255"
+                                  },
+                                  "cursor": "AQHS6lO4CS2IepAa2N8j0GNLXHT2yCFmMg0rvzjNm3cMBrTbH1sJ0EzfmBeco1rSH0WD6aei8R6JfkX2_y-UFd7jnw"
+                                }
+                              ],
+                              "page_info": {
+                                "end_cursor": "AQHSYgoBc5ll4kDRkL7S9be1m95IxMLWJEM7Aw_bd3EXHVbBZbif9PGmJVVEhrYhaGDPy4kreoXqhK_tX4WCxEumVQ",
+                                "has_next_page": true
+                              }
+                            },
+                            "id": "17841402317910390"
+                          }
+                        },
+                        "extensions": {
+                          "is_final": true
+                        }
+                      },
+                      "sequence_number": 0
+                    }
+                  }
+                ]
+              ],
+              [
+                "CometResourceScheduler",
+                "registerHighPriHashes",
+                null,
+                [
+                  [
+                    "tu+r2yr",
+                    "hiVyYz3"
+                  ]
+                ]
+              ]
+            ]
+          }
+        },
+        {
+          "__bbox": null
+        },
+        {
+          "__bbox": null
+        }
+      ]
+    ]
+  ]
+}
