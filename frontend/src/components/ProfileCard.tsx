@@ -19,15 +19,23 @@ export function formatCount(num: number): string {
 export default function ProfileCard({ profile }: ProfileCardProps) {
   return (
     <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-        {/* Left Side: Avatar */}
-        <div className="relative flex-shrink-0 w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-indigo-100 bg-slate-50">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={profile.profile_pic_url || "/placeholder-avatar.png"}
-            alt={profile.username}
-            className="w-full h-full object-cover"
-          />
+      <div className="flex flex-col md:flex-row items-stretch md:items-start gap-6">
+        {/* Left Side: Creator Identity Badge */}
+        <div className="flex-shrink-0 flex flex-col items-center justify-center p-5 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 border border-indigo-100/40 rounded-2xl w-full md:w-40 text-center select-none">
+          <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">Creator Profile</span>
+          <div className="mt-2 text-base font-extrabold text-slate-800 flex items-center justify-center gap-1">
+            {profile.is_verified ? (
+              <>
+                <span className="text-indigo-600">Verified</span>
+                <svg className="w-4 h-4 text-indigo-500 fill-current" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4.13-5.69a.02.02 0 00.02-.02z" clipRule="evenodd" />
+                </svg>
+              </>
+            ) : (
+              <span className="text-slate-500">Public Account</span>
+            )}
+          </div>
+          <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Status</span>
         </div>
 
         {/* Right Side: Profile Info */}
