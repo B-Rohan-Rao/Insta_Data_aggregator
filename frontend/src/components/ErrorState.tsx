@@ -10,18 +10,18 @@ export default function ErrorState({ errorType, onRetry }: ErrorStateProps) {
     switch (errorType) {
       case "not_found":
         return {
-          title: "Profile Not Found",
-          message: "The requested Instagram username does not exist. Please check the spelling and try again.",
+          title: "Profile Unavailable",
+          message: "This profile could not be accessed right now. The username may be incorrect, the profile may have been removed, or Instagram may be temporarily restricting access. Please try again later.",
         };
       case "private":
         return {
           title: "Private Profile",
-          message: "This profile is private. We can only retrieve analytics and post history for public creator accounts.",
+          message: "This profile is private and Instagram restricts access to its content and analytics. Try analyzing a public profile instead.",
         };
       case "instagram_down":
         return {
           title: "Instagram Temporarily Unavailable",
-          message: "Instagram's servers are currently blocking requests or rate-limiting traffic. Please try again in a few minutes.",
+          message: "Instagram is currently limiting access to profile data. Please wait a few minutes and try again.",
         };
       case "backend_unreachable":
         return {

@@ -283,7 +283,7 @@ export default function Home() {
                 <AnalyticsCard analytics={result.analytics} />
 
                 {/* Section 4: Language Distribution */}
-                <LanguageCard username={result.profile.username} />
+                <LanguageCard analytics={result.analytics} />
               </div>
 
               {/* SECTION 5 - CREATOR INSIGHTS (Full Width Below) */}

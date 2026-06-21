@@ -8,6 +8,9 @@ export interface MockAnalytics {
   posting_frequency_days: number;
   viral_posts: MockPost[];
   collaboration_posts: MockPost[];
+  english_percent?: number;
+  hindi_percent?: number;
+  hinglish_percent?: number;
 }
 
 export const mockAnalyticsData: Record<string, MockAnalytics> = {
@@ -17,6 +20,9 @@ export const mockAnalyticsData: Record<string, MockAnalytics> = {
     avg_comments: 21916.67,
     total_posts_analyzed: 12,
     posting_frequency_days: 2.08,
+    english_percent: 22.4,
+    hindi_percent: 35.8,
+    hinglish_percent: 41.8,
     viral_posts: [
       {
         id: "post_4",
@@ -60,6 +66,9 @@ export const mockAnalyticsData: Record<string, MockAnalytics> = {
     avg_comments: 14500.0,
     total_posts_analyzed: 12,
     posting_frequency_days: 1.45,
+    english_percent: 68.5,
+    hindi_percent: 12.2,
+    hinglish_percent: 19.3,
     viral_posts: [
       {
         id: "v_post_1",
@@ -87,6 +96,9 @@ export const mockAnalyticsData: Record<string, MockAnalytics> = {
     avg_comments: 14500.0,
     total_posts_analyzed: 12,
     posting_frequency_days: 1.45,
+    english_percent: 68.5,
+    hindi_percent: 12.2,
+    hinglish_percent: 19.3,
     viral_posts: [
       {
         id: "v_post_1",
@@ -114,6 +126,9 @@ export const mockAnalyticsData: Record<string, MockAnalytics> = {
     avg_comments: 98000.0,
     total_posts_analyzed: 12,
     posting_frequency_days: 2.5,
+    english_percent: 44.8,
+    hindi_percent: 23.5,
+    hinglish_percent: 31.7,
     viral_posts: [
       {
         id: "s_post_1",
@@ -141,6 +156,9 @@ export const mockAnalyticsData: Record<string, MockAnalytics> = {
     avg_comments: 98000.0,
     total_posts_analyzed: 12,
     posting_frequency_days: 2.5,
+    english_percent: 44.8,
+    hindi_percent: 23.5,
+    hinglish_percent: 31.7,
     viral_posts: [
       {
         id: "s_post_1",
