@@ -38,6 +38,9 @@ class AnalyticsResponse(BaseModel):
     posting_frequency_days: float
     viral_posts: List[PostResponse]
     collaboration_posts: List[PostResponse]
+    english_percent: float
+    hindi_percent: float
+    hinglish_percent: float
 
 class AnalyzeResponse(BaseModel):
     """

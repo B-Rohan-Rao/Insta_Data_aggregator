@@ -639,22 +639,18 @@ class InstagramService:
 
     def _fetch_via_playwright(self, username: str) -> Optional[Dict[str, Any]]:
         """
-        Attempts to scrape Instagram profile and posts via Playwright using the Chrome session.
-        Returns a dict with 'profile', 'posts', 'source', and 'raw_api_payload' if successful, or None.
+        Attempts to scrape Instagram profile and posts via Playwright using a dedicated persistent profile.
+        Returns a dict with 'profile', 'posts', 'comments', 'source', and 'raw_api_payload' if successful, or None.
         """
-        temp_profile_dir = None
-        try:
-            temp_profile_dir = self._copy_chrome_profile()
-        except Exception as e:
-            logger.warning(f"Failed to copy Chrome profile: {e}")
-            return None
+        profile_dir = os.path.abspath("sessions/playwright_instagram_profile")
+        os.makedirs(profile_dir, exist_ok=True)
 
 
 
         try:
             with sync_playwright() as p:
                 context = p.chromium.launch_persistent_context(
-                    user_data_dir=temp_profile_dir,
+                    user_data_dir=profile_dir,
                     channel="chrome",
                     headless=True
                 )
@@ -684,7 +680,55 @@ class InstagramService:
                 page.on("response", handle_response)
 
                 page.goto(f"https://www.instagram.com/{username}/", timeout=60000)
-                 
+
+
+                # --- EARLY LOGIN WALL DETECTION (immediately after navigation) ---
+                _early_url = page.url
+                _is_login = "accounts/login" in _early_url or "login" in _early_url.lower()
+                if not _is_login:
+                    try:
+                        page.wait_for_selector("input[name='email'], input[name='username']", timeout=2000)
+                        _is_login = True
+                    except Exception:
+                        pass
+
+                # Temporarily disabled auto-login block for testing/investigation
+                # if _is_login:
+                #     logger.warning(f"Login wall detected. Attempting auto-login.")
+                #     _login_ok = False
+                #     try:
+                #         page.wait_for_selector("input[name='email'], input[name='username']", timeout=8000)
+                #         _u_input = page.query_selector("input[name='email'], input[name='username']")
+                #         _p_input = page.query_selector("input[name='pass'], input[name='password']")
+                #         if _u_input and _p_input:
+                #             _u_input.fill(settings.IG_USERNAME)
+                #             _p_input.fill(settings.IG_PASSWORD)
+                #             _submit = page.query_selector("input[type='submit'], button[type='submit']")
+                #             if _submit:
+                #                 _submit.click()
+                #                 # Wait up to 10 seconds for redirect away from login page
+                #                 page.wait_for_timeout(10000)
+                #                 if "accounts/login" not in page.url:
+                #                     _login_ok = True
+                #                     logger.warning("Auto-login appears successful.")
+                #                 else:
+                #                     logger.warning("Auto-login failed — still on login page after submit.")
+                #     except Exception as _le:
+                #         logger.error(f"Auto-login failed with exception: {_le}")
+                # 
+                #     if _login_ok:
+                #         # Navigate to profile after successful login
+                #         page.goto(f"https://www.instagram.com/{username}/", timeout=60000)
+                #         # Wait for web_profile_info after re-navigation
+                #         for _ in range(20):
+                #             if any("web_profile_info" in r["url"] for r in intercepted_responses):
+                #                 break
+                #             time.sleep(0.5)
+                #     else:
+                #         context.close()
+                #         return None
+                # --- END EARLY LOGIN WALL DETECTION ---
+
                 # Check page title and content for not found or private status
                 title = page.title()
                 body_text = page.inner_text("body")
@@ -727,6 +771,37 @@ class InstagramService:
                     pass
                 # --- END POST-INTERACTION PHASE ---
 
+                # Extract comments from intercepted responses
+                comments = []
+
+                for resp in intercepted_responses:
+                    url = resp.get("url", "")
+                    json_data = resp.get("json")
+                    if not json_data:
+                        continue
+                    if "/api/v1/media/" in url and "/comments/" in url:
+                        try:
+                            for c in json_data.get("comments", []):
+                                text = c.get("text")
+                                if text:
+                                    comments.append(text)
+                        except Exception:
+                            pass
+                    elif "graphql" in url or "query" in url:
+                        try:
+                            data = json_data.get("data", {})
+                            media = data.get("xdt_shortcode_media") or data.get("media") or {}
+                            parent_comments = media.get("edge_media_to_parent_comment") or media.get("edge_media_to_comment") or {}
+                            edges = parent_comments.get("edges", [])
+                            for edge in edges:
+                                node = edge.get("node", {})
+                                text = node.get("text")
+                                if text:
+                                    comments.append(text)
+                        except Exception:
+                            pass
+                logger.info(f"Playwright extracted {len(comments)} comments from network responses")
+
                 # Extract web_profile_info user payload from intercepted list
                 raw_payload = None
                 for resp in intercepted_responses:
@@ -749,8 +824,14 @@ class InstagramService:
 
                 if not raw_payload:
                     current_url = page.url
-                    if "accounts/login" in current_url:
-                        logger.warning(f"Playwright was redirected to login page: {current_url}")
+                    is_still_login = "accounts/login" in current_url or "login" in current_url.lower()
+                    if not is_still_login:
+                        try:
+                            page.wait_for_selector("input[name='email'], input[name='username']", timeout=1000)
+                            is_still_login = True
+                        except Exception:
+                            pass
+                    if is_still_login:
                         context.close()
                         return None
                 if raw_payload:
@@ -803,6 +884,7 @@ class InstagramService:
                     return {
                         "profile": profile,
                         "posts": posts,
+                        "comments": comments,
                         "source": "PLAYWRIGHT_API",
                         "raw_api_payload": raw_payload
                     }
@@ -930,17 +1012,14 @@ class InstagramService:
                     return {
                         "profile": profile,
                         "posts": posts,
+                        "comments": comments,
                         "source": "PLAYWRIGHT_DOM",
                         "raw_api_payload": None
                     }
         except Exception as e:
             logger.warning(f"Playwright execution failed: {e}")
         finally:
-            if temp_profile_dir:
-                try:
-                    shutil.rmtree(temp_profile_dir, ignore_errors=True)
-                except Exception:
-                    pass
+            pass
         return None
 
     def fetch_profile(self, username: str) -> Dict[str, Any]:
@@ -1167,14 +1246,33 @@ class InstagramService:
             if "not found" in err.lower() or "does not exist" in err.lower():
                 raise InstagramProfileNotFoundError(f"Instagram profile '{username}' not found.")
 
-        raise Exception(f"Failed to fetch recent posts for {username} via Playwright, Instaloader, web_profile_info, and no fallback data available.")
+    def get_comments(self, username: str) -> List[str]:
+        """
+        Retrieves comments scraped and cached during the Playwright profile fetch.
+        """
+        normalized_username = username.lower().strip()
+        if normalized_username in self._scraped_cache:
+            return self._scraped_cache[normalized_username].get("comments", [])
+        return []
 
     def fetch_comments(self, media_id: str) -> List[Dict[str, Any]]:
         """
         Fetches text and usernames for comments on a specified media ID.
         If comments are disabled, gracefully returns an empty list without crashing.
         """
+        logger.info(f"fetch_comments called with media_id={media_id}")
         try:
+            self.login()
+            logger.info("fetch_comments: login() succeeded")
+            
+            # If the media_id is not numeric and does not contain "_", treat as a shortcode
+            if not media_id.isdigit() and "_" not in media_id:
+                logger.info(f"fetch_comments: media_id={media_id} is a shortcode. Triggering conversion.")
+                media_pk = self.client.media_pk_from_code(media_id)
+                old_media_id = media_id
+                media_id = self.client.media_id(media_pk)
+                logger.info(f"fetch_comments: converted shortcode {old_media_id} -> media_id={media_id}")
+                
             # We fetch up to 50 comments (modify as needed) to supply sufficient NLP sample size
             comments_data = self.client.media_comments(media_id, amount=50)
             
@@ -1184,10 +1282,13 @@ class InstagramService:
                     "username": comment.user.username,
                     "text": comment.text
                 })
+            logger.info(f"fetch_comments returned {len(comments)} comments for media_id={media_id}")
             return comments
-        except ClientError:
+        except ClientError as e:
             # instagrapi often throws a ClientError representing that comments are closed/disabled
+            logger.warning(f"fetch_comments: comments disabled or ClientError for media_id={media_id}: {e}")
             return []
-        except Exception:
+        except Exception as e:
             # Ensure no crashes occur for other undefined comment retrieval errors
+            logger.error(f"fetch_comments failed for media_id={media_id}: {e}")
             return []

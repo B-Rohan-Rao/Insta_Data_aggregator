@@ -4,6 +4,7 @@ from app.db import get_database
 from app.services.instagram import InstagramService
 from app.analytics import calculate_analytics
 from app.models import AnalyzeResponse
+from app.nlp import analyze_comments
 from app.exceptions import (
     InstagramProfileNotFoundError,
     InstagramProfilePrivateError,
@@ -65,9 +66,28 @@ def analyze_creator(username: str):
             
         # 2. Fetch recent posts (limit 12)
         recent_posts = instagram_service.fetch_recent_posts(username, limit=12)
-        
+            
+        # 2.5 Retrieve comments from Playwright scraper cache and analyze language distribution
+        comments_list = []
+        try:
+            comments_list = instagram_service.get_comments(username)
+        except Exception:
+            pass
+
+        try:
+            lang_dist = analyze_comments(comments_list)
+        except Exception:
+            lang_dist = {
+                "english_percent": 0.0,
+                "hindi_percent": 0.0,
+                "hinglish_percent": 0.0
+            }
+
         # 3. Calculate analytics
         analytics_data = calculate_analytics(profile_data, recent_posts)
+        analytics_data["english_percent"] = lang_dist.get("english_percent", 0.0)
+        analytics_data["hindi_percent"] = lang_dist.get("hindi_percent", 0.0)
+        analytics_data["hinglish_percent"] = lang_dist.get("hinglish_percent", 0.0)
         
         # 4. Save results to MongoDB
         db = get_database()
