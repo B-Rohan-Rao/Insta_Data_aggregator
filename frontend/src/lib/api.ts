@@ -66,31 +66,8 @@ export async function analyzeCreator(username: string): Promise<AnalyzeResult> {
       throw new HttpError(response.status, detail);
     }
   } catch (e: any) {
-    if (e instanceof HttpError) {
-      // Propagate backend HTTP validation/server errors directly to the UI
-      throw e;
-    }
-    
-    // Simulate network delay for nice loading screen transitions when falling back to mock
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    
-    console.warn("Backend API unavailable or returned error, falling back to mock data.", e);
-    
-    // Check if the username exists in our mock profiles database
-    const mockProfile = mockProfileData[normalizedUsername] || mockProfileData.default;
-    const mockAnalytics = mockAnalyticsData[normalizedUsername] || mockAnalyticsData.default;
-    const mockPosts = mockPostsData[normalizedUsername] || mockPostsData.default;
-    
-    return {
-      profile: {
-        ...mockProfile,
-        // If they searched a custom user, override username to match their search
-        username: mockProfileData[normalizedUsername] ? mockProfile.username : username
-      },
-      analytics: mockAnalytics,
-      recent_posts: mockPosts,
-      isMock: true,
-    };
+    // Propagate all errors directly to the caller, disabling mock fallback
+    throw e;
   }
 }
 

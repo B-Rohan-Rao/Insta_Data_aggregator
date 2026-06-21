@@ -1,5 +1,7 @@
 "use client";
 
+import AnimatedNumber from "./AnimatedNumber";
+
 interface LanguageCardProps {
   username: string;
 }
@@ -11,7 +13,7 @@ export default function LanguageCard({ username }: LanguageCardProps) {
     if (name.includes("virat") || name.includes("kohli")) {
       return { english: 68.5, hindi: 12.2, hinglish: 19.3 };
     }
-    if (name.includes("shraddha") || name.includes("kapoor")) {
+    if (name.includes("shraddha") || name.includes("kapoor") || name.includes("adityasaidwhat") || name.includes("aditya")) {
       return { english: 44.8, hindi: 23.5, hinglish: 31.7 };
     }
     // default (e.g. carryminati / standard creator)
@@ -27,22 +29,24 @@ export default function LanguageCard({ username }: LanguageCardProps) {
   ];
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm flex flex-col justify-between h-full">
+    <div className="shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300 p-4 sm:p-5 flex flex-col justify-between h-full">
       <div>
-        <h3 className="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
+        <h3 className="text-lg font-bold text-slate-900 mb-1.5 flex items-center gap-2">
           <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 21a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm0 0a1.5 1.5 0 01-3 0m3 0h7.5m-9 0V3.75m0 2.25h9a1.5 1.5 0 011.5 1.5v11.25a1.5 1.5 0 01-1.5 1.5h-9" />
           </svg>
           Audience Language Distribution
         </h3>
-        <p className="text-xs text-slate-400 mb-6">Language distribution estimated from audience comments.</p>
-
-        <div className="space-y-6">
+        <p className="text-xs text-slate-400 mb-4">Language distribution estimated from audience comments.</p>
+ 
+        <div className="space-y-4">
           {items.map((item, idx) => (
             <div key={idx} className="space-y-2">
               <div className="flex items-center justify-between text-sm font-semibold">
                 <span className="text-slate-700">{item.label}</span>
-                <span className="text-slate-900">{item.value.toFixed(1)}%</span>
+                <span className="text-slate-900">
+                  <AnimatedNumber value={item.value.toFixed(1) + "%"} />
+                </span>
               </div>
               <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
                 <div
@@ -55,7 +59,7 @@ export default function LanguageCard({ username }: LanguageCardProps) {
         </div>
       </div>
 
-      <div className="mt-8 pt-4 border-t border-slate-50 text-[10px] text-slate-400 leading-normal flex items-start gap-1.5">
+      <div className="mt-6 pt-4 border-t border-slate-50 text-[10px] text-slate-400 leading-normal flex items-start gap-1.5">
         <svg className="w-4 h-4 text-slate-300 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>

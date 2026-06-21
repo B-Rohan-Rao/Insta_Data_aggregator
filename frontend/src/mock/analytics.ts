@@ -81,7 +81,61 @@ export const mockAnalyticsData: Record<string, MockAnalytics> = {
       }
     ]
   },
+  "virat.kohli": {
+    engagement_rate: 1.85,
+    avg_likes: 4850000.0,
+    avg_comments: 14500.0,
+    total_posts_analyzed: 12,
+    posting_frequency_days: 1.45,
+    viral_posts: [
+      {
+        id: "v_post_1",
+        caption: "Match winning innings today! Truly special moment. Thank you everyone for the love. 🇮🇳🏏",
+        thumbnail_url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&q=80",
+        like_count: 8900000,
+        comment_count: 45000,
+        taken_at: "2026-06-18T16:00:00Z"
+      }
+    ],
+    collaboration_posts: [
+      {
+        id: "v_post_3",
+        caption: "Excited to partner with @brand to launch the new collection. #ad #sports #activewear",
+        thumbnail_url: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+        like_count: 4200000,
+        comment_count: 12000,
+        taken_at: "2026-06-14T11:00:00Z"
+      }
+    ]
+  },
   shraddhakapoor: {
+    engagement_rate: 3.12,
+    avg_likes: 2780000.0,
+    avg_comments: 98000.0,
+    total_posts_analyzed: 12,
+    posting_frequency_days: 2.5,
+    viral_posts: [
+      {
+        id: "s_post_1",
+        caption: "Happy Sunday everyone! What are you all reading today? 📚🌸✨ #sundayvibes",
+        thumbnail_url: "https://images.unsplash.com/photo-1542596768-5d1d21f1cf98?auto=format&fit=crop&w=600&q=80",
+        like_count: 5200000,
+        comment_count: 180000,
+        taken_at: "2026-06-19T08:00:00Z"
+      }
+    ],
+    collaboration_posts: [
+      {
+        id: "s_post_4",
+        caption: "Tried this new skincare range from @brand and absolutely loved it! #collab #skincare #natural",
+        thumbnail_url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
+        like_count: 2400000,
+        comment_count: 75000,
+        taken_at: "2026-06-12T14:00:00Z"
+      }
+    ]
+  },
+  adityasaidwhat: {
     engagement_rate: 3.12,
     avg_likes: 2780000.0,
     avg_comments: 98000.0,

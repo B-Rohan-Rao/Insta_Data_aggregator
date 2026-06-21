@@ -33,6 +33,17 @@ export const mockProfileData: Record<string, MockProfile> = {
     is_verified: true,
     external_url: "https://one8.com"
   },
+  "virat.kohli": {
+    username: "virat.kohli",
+    full_name: "Virat Kohli",
+    biography: "Athlete. Proud father and husband. Co-owner of One8.",
+    profile_pic_url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
+    follower_count: 270000000,
+    following_count: 285,
+    media_count: 1680,
+    is_verified: true,
+    external_url: "https://one8.com"
+  },
   shraddhakapoor: {
     username: "shraddhakapoor",
     full_name: "Shraddha Kapoor",
@@ -43,5 +54,16 @@ export const mockProfileData: Record<string, MockProfile> = {
     media_count: 1950,
     is_verified: true,
     external_url: "https://linktr.ee/shraddhakapoor"
+  },
+  adityasaidwhat: {
+    username: "adityasaidwhat",
+    full_name: "Aditya",
+    biography: "Living my dream ✨ Keep shining, keep smiling!\n🌸 Blessed 🌸",
+    profile_pic_url: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+    follower_count: 92400000,
+    following_count: 840,
+    media_count: 1950,
+    is_verified: true,
+    external_url: "https://www.instagram.com/adityasaidwhat/"
   }
 };

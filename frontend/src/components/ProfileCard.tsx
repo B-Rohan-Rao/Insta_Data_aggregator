@@ -1,6 +1,7 @@
 "use client";
 
 import { MockProfile } from "../mock/profile";
+import AnimatedNumber from "./AnimatedNumber";
 
 interface ProfileCardProps {
   profile: MockProfile;
@@ -18,10 +19,10 @@ export function formatCount(num: number): string {
 
 export default function ProfileCard({ profile }: ProfileCardProps) {
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
-      <div className="flex flex-col md:flex-row items-stretch md:items-start gap-6">
+    <div className="shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300 p-4 sm:p-5">
+      <div className="flex flex-col md:flex-row items-stretch md:items-start gap-4 sm:gap-6">
         {/* Left Side: Creator Identity Badge */}
-        <div className="flex-shrink-0 flex flex-col items-center justify-center p-5 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 border border-indigo-100/40 rounded-2xl w-full md:w-40 text-center select-none">
+        <div className="flex-shrink-0 flex flex-col items-center justify-center p-3 sm:p-4 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 border border-indigo-100/40 rounded-2xl w-full md:w-40 text-center select-none">
           <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">Creator Profile</span>
           <div className="mt-2 text-base font-extrabold text-slate-800 flex items-center justify-center gap-1">
             {profile.is_verified ? (
@@ -39,7 +40,7 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
         </div>
 
         {/* Right Side: Profile Info */}
-        <div className="flex-1 text-center md:text-left space-y-4">
+        <div className="flex-1 text-center md:text-left space-y-2.5">
           <div>
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1">
               <h2 className="text-xl font-bold text-slate-900">@{profile.username}</h2>
@@ -72,17 +73,23 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
           )}
 
           {/* Followers Summary for Small/Medium screen fallback */}
-          <div className="flex items-center justify-center md:justify-start gap-6 pt-4 border-t border-slate-100">
+          <div className="flex items-center justify-center md:justify-start gap-6 pt-3 border-t border-slate-100">
             <div>
-              <p className="text-xl font-extrabold text-slate-900">{formatCount(profile.follower_count)}</p>
+              <p className="text-xl font-semibold text-slate-900">
+                <AnimatedNumber value={formatCount(profile.follower_count)} />
+              </p>
               <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">Followers</p>
             </div>
             <div>
-              <p className="text-xl font-extrabold text-slate-900">{formatCount(profile.following_count)}</p>
+              <p className="text-xl font-semibold text-slate-900">
+                <AnimatedNumber value={formatCount(profile.following_count)} />
+              </p>
               <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">Following</p>
             </div>
             <div>
-              <p className="text-xl font-extrabold text-slate-900">{formatCount(profile.media_count)}</p>
+              <p className="text-xl font-semibold text-slate-900">
+                <AnimatedNumber value={formatCount(profile.media_count)} />
+              </p>
               <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">Posts</p>
             </div>
           </div>

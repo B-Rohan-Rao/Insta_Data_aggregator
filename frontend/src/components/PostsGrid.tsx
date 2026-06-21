@@ -1,6 +1,7 @@
 "use client";
 
 import { MockPost } from "../mock/posts";
+import AnimatedNumber from "./AnimatedNumber";
 
 interface PostsGridProps {
   posts: MockPost[];
@@ -28,8 +29,8 @@ export default function PostsGrid({ posts, followerCount }: PostsGridProps) {
   };
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
-      <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+    <div className="shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300 p-4 sm:p-5">
+      <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
         <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
@@ -46,13 +47,13 @@ export default function PostsGrid({ posts, followerCount }: PostsGridProps) {
           return (
             <div
               key={post.id}
-              className="group bg-slate-50 border border-slate-100 rounded-xl hover:shadow-md hover:border-slate-200 transition-all duration-300 p-5 flex flex-col justify-between space-y-4"
+              className="group shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300 p-3.5 flex flex-col justify-between space-y-2.5"
             >
               {/* Top Row: Post Number and ER */}
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Post #{idx + 1}</span>
-                <span className="bg-indigo-50 text-indigo-700 text-[10px] font-extrabold px-2 py-0.5 rounded-md">
-                  {getPostEngagementScore(post.like_count, post.comment_count)} ER
+                <span className="bg-indigo-50 text-indigo-700 text-[10px] font-semibold px-2 py-0.5 rounded-md">
+                  <AnimatedNumber value={getPostEngagementScore(post.like_count, post.comment_count) + " ER"} />
                 </span>
               </div>
 
@@ -68,7 +69,7 @@ export default function PostsGrid({ posts, followerCount }: PostsGridProps) {
               </div>
 
               {/* Footer: Metadata & Metrics */}
-              <div className="space-y-3 pt-3 border-t border-slate-100">
+              <div className="space-y-2 pt-2 border-t border-slate-100">
                 <div className="flex items-center justify-between text-[11px]">
                   <span className="font-semibold text-slate-400">{formatDate(post.taken_at)}</span>
                   <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
@@ -81,18 +82,18 @@ export default function PostsGrid({ posts, followerCount }: PostsGridProps) {
                 </div>
 
                 {/* Likes and Comments */}
-                <div className="flex items-center justify-between text-xs text-slate-500 font-extrabold">
+                <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
                   <span className="flex items-center gap-1.5">
                     <svg className="w-3.5 h-3.5 text-rose-500 fill-current" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                     </svg>
-                    {post.like_count.toLocaleString()}
+                    <AnimatedNumber value={post.like_count} />
                   </span>
                   <span className="flex items-center gap-1.5">
                     <svg className="w-3.5 h-3.5 text-cyan-500 fill-current" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
                     </svg>
-                    {post.comment_count.toLocaleString()}
+                    <AnimatedNumber value={post.comment_count} />
                   </span>
                 </div>
               </div>

@@ -29,8 +29,62 @@
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, #f1f5f9 0%, #f8fafc 50%, #eef2f7 100%);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
   min-height: 100vh;
+}
+
+@utility bg-neumorphic-page {
+  background: linear-gradient(
+    135deg,
+    #f1f5f9 0%,
+    #f8fafc 50%,
+    #eef2f7 100%
+  );
+}
+
+@utility shadow-neumorphic {
+  box-shadow: 12px 12px 24px rgba(0, 0, 0, 0.08), -12px -12px 24px rgba(255, 255, 255, 0.95);
+  background: #f8fafc;
+  border: none;
+  border-radius: 24px;
+}
+
+@utility shadow-neumorphic-hover {
+  box-shadow: 16px 16px 32px rgba(0, 0, 0, 0.10), -16px -16px 32px rgba(255, 255, 255, 1);
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+.shine-effect {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.group:hover .shine-effect {
+  opacity: 1;
+  animation: shine 0.75s ease-in-out forwards;
 }

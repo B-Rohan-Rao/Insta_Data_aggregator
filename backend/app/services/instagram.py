@@ -175,6 +175,37 @@ FALLBACK_DATA = {
             }
         ]
     },
+    "virat.kohli": {
+        "profile": {
+            "username": "virat.kohli",
+            "full_name": "Virat Kohli",
+            "biography": "Athlete. Proud father and husband. Co-owner of One8.",
+            "profile_pic_url": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
+            "follower_count": 270000000,
+            "following_count": 285,
+            "media_count": 1680,
+            "is_verified": True,
+            "external_url": "https://one8.com"
+        },
+        "posts": [
+            {
+                "id": "v_post_1",
+                "caption": "Match winning innings today! Truly special moment. Thank you everyone for the love. 🇮🇳🏏",
+                "thumbnail_url": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&q=80",
+                "like_count": 8900000,
+                "comment_count": 45000,
+                "taken_at": datetime.fromisoformat("2026-06-18T16:00:00+00:00")
+            },
+            {
+                "id": "v_post_3",
+                "caption": "Excited to partner with @brand to launch the new collection. #ad #sports #activewear",
+                "thumbnail_url": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+                "like_count": 4200000,
+                "comment_count": 12000,
+                "taken_at": datetime.fromisoformat("2026-06-14T11:00:00+00:00")
+            }
+        ]
+    },
     "shraddhakapoor": {
         "profile": {
             "username": "shraddhakapoor",
@@ -186,6 +217,37 @@ FALLBACK_DATA = {
             "media_count": 1950,
             "is_verified": True,
             "external_url": "https://linktr.ee/shraddhakapoor"
+        },
+        "posts": [
+            {
+                "id": "s_post_1",
+                "caption": "Happy Sunday everyone! What are you all reading today? 📚🌸✨ #sundayvibes",
+                "thumbnail_url": "https://images.unsplash.com/photo-1542596768-5d1d21f1cf98?auto=format&fit=crop&w=600&q=80",
+                "like_count": 5200000,
+                "comment_count": 180000,
+                "taken_at": datetime.fromisoformat("2026-06-19T08:00:00+00:00")
+            },
+            {
+                "id": "s_post_4",
+                "caption": "Tried this new skincare range from @brand and absolutely loved it! #collab #skincare #natural",
+                "thumbnail_url": "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
+                "like_count": 2400000,
+                "comment_count": 75000,
+                "taken_at": datetime.fromisoformat("2026-06-12T14:00:00+00:00")
+            }
+        ]
+    },
+    "adityasaidwhat": {
+        "profile": {
+            "username": "adityasaidwhat",
+            "full_name": "Aditya",
+            "biography": "Living my dream ✨ Keep shining, keep smiling!\n🌸 Blessed 🌸",
+            "profile_pic_url": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80",
+            "follower_count": 92400000,
+            "following_count": 840,
+            "media_count": 1950,
+            "is_verified": True,
+            "external_url": "https://www.instagram.com/adityasaidwhat/"
         },
         "posts": [
             {

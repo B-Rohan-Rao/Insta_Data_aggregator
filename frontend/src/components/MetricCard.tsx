@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
+import AnimatedNumber from "./AnimatedNumber";
 
 interface MetricCardProps {
   value: string | number;
@@ -69,10 +70,10 @@ export default function MetricCard({ value, label, trend, trendDirection, iconTy
   };
 
   return (
-    <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm flex items-start justify-between">
-      <div className="space-y-3">
+    <div className="shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300 p-4 sm:p-5 flex items-start justify-between">
+      <div className="space-y-1.5">
         <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{label}</p>
-        <h3 className="text-2xl font-extrabold text-slate-900">{value}</h3>
+        <h3 className="text-2xl font-semibold text-slate-900"><AnimatedNumber value={value} /></h3>
         
         {/* Trend Indicator */}
         <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 border text-xs font-medium rounded-full ${getTrendStyles()}`}>

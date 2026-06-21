@@ -23,11 +23,16 @@ export default function ErrorState({ errorType, onRetry }: ErrorStateProps) {
           title: "Instagram Temporarily Unavailable",
           message: "Instagram's servers are currently blocking requests or rate-limiting traffic. Please try again in a few minutes.",
         };
+      case "backend_unreachable":
+        return {
+          title: "Backend Unavailable",
+          message: "Our backend server is currently unreachable. Please make sure the backend server is running and try again.",
+        };
       case "backend_down":
       default:
         return {
           title: "Analysis Failed",
-          message: "Our server or database is temporarily unavailable. We will fall back to using offline mock data shortly, or you can retry the connection.",
+          message: "The backend server encountered an error while analyzing this profile. Please try again.",
         };
     }
   };
@@ -36,7 +41,7 @@ export default function ErrorState({ errorType, onRetry }: ErrorStateProps) {
 
   return (
     <div className="max-w-md mx-auto px-4 py-8">
-      <div className="bg-red-50 border border-red-200 rounded-2xl p-6 shadow-sm text-center">
+      <div className="shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300 p-6 text-center">
         {/* Red Warning Icon */}
         <div className="inline-flex items-center justify-center w-12 h-12 bg-red-100 text-red-600 rounded-full mb-4">
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -54,7 +59,7 @@ export default function ErrorState({ errorType, onRetry }: ErrorStateProps) {
             onClick={onRetry}
             className="w-full sm:w-auto px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl text-sm transition-colors cursor-pointer"
           >
-            Retry Analysis
+            Go Back to Search
           </button>
         </div>
       </div>
