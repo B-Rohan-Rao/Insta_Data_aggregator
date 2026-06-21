@@ -29,6 +29,7 @@ export class HttpError extends Error {
     super(message);
     this.status = status;
     this.name = "HttpError";
+    Object.setPrototypeOf(this, HttpError.prototype);
   }
 }
 

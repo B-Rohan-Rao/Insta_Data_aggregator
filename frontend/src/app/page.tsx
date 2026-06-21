@@ -62,7 +62,7 @@ export default function Home() {
       if (activeRequestRef.current !== searchName) {
         return;
       }
-      console.error("Analysis request failed:", e);
+      console.warn("Analysis request failed:", e.message || e);
       if (e && e.status) {
         const msg = (e.message || "").toLowerCase();
         if (e.status === 400) {

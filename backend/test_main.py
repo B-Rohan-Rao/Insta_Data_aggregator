@@ -86,5 +86,68 @@ class TestFastAPI(unittest.TestCase):
         db.posts.delete_many({"post_id": {"$in": ["post_111", "post_222"]}})
         print("Integration test passed and DB successfully cleaned up!")
 
+    @patch("app.main.instagram_service")
+    def test_analyze_endpoint_not_found(self, mock_service):
+        from app.exceptions import InstagramProfileNotFoundError
+        mock_service.fetch_profile.side_effect = InstagramProfileNotFoundError("Not Found")
+        
+        if has_test_client:
+            response = client.post("/analyze/non_existent_user")
+            self.assertEqual(response.status_code, 404)
+            self.assertEqual(response.json()["detail"], "Instagram profile not found")
+        else:
+            from fastapi import HTTPException
+            with self.assertRaises(HTTPException) as context:
+                analyze_creator("non_existent_user")
+            self.assertEqual(context.exception.status_code, 404)
+            self.assertEqual(context.exception.detail, "Instagram profile not found")
+
+    @patch("app.main.instagram_service")
+    def test_analyze_endpoint_private(self, mock_service):
+        from app.exceptions import InstagramProfilePrivateError
+        mock_service.fetch_profile.side_effect = InstagramProfilePrivateError("Private")
+        
+        if has_test_client:
+            response = client.post("/analyze/private_user")
+            self.assertEqual(response.status_code, 400)
+            self.assertEqual(response.json()["detail"], "Instagram profile is private")
+        else:
+            from fastapi import HTTPException
+            with self.assertRaises(HTTPException) as context:
+                analyze_creator("private_user")
+            self.assertEqual(context.exception.status_code, 400)
+            self.assertEqual(context.exception.detail, "Instagram profile is private")
+
+    @patch("app.main.instagram_service")
+    def test_analyze_endpoint_rate_limit(self, mock_service):
+        from app.exceptions import InstagramRateLimitError
+        mock_service.fetch_profile.side_effect = InstagramRateLimitError("Rate Limit")
+        
+        if has_test_client:
+            response = client.post("/analyze/rate_limited_user")
+            self.assertEqual(response.status_code, 429)
+            self.assertEqual(response.json()["detail"], "Instagram rate limit reached")
+        else:
+            from fastapi import HTTPException
+            with self.assertRaises(HTTPException) as context:
+                analyze_creator("rate_limited_user")
+            self.assertEqual(context.exception.status_code, 429)
+            self.assertEqual(context.exception.detail, "Instagram rate limit reached")
+
+    @patch("app.main.instagram_service")
+    def test_analyze_endpoint_generic_error(self, mock_service):
+        mock_service.fetch_profile.side_effect = Exception("Some database error")
+        
+        if has_test_client:
+            response = client.post("/analyze/error_user")
+            self.assertEqual(response.status_code, 500)
+            self.assertEqual(response.json()["detail"], "Internal server error")
+        else:
+            from fastapi import HTTPException
+            with self.assertRaises(HTTPException) as context:
+                analyze_creator("error_user")
+            self.assertEqual(context.exception.status_code, 500)
+            self.assertEqual(context.exception.detail, "Internal server error")
+
 if __name__ == "__main__":
     unittest.main()

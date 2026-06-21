@@ -12,6 +12,11 @@ from datetime import datetime
 from app.config import settings
 from typing import Any, Dict, List, Optional
 from playwright.sync_api import sync_playwright
+from app.exceptions import (
+    InstagramProfileNotFoundError,
+    InstagramProfilePrivateError,
+    InstagramRateLimitError
+)
 
 from instagrapi import Client
 from instagrapi.exceptions import (
@@ -327,13 +332,15 @@ class InstagramService:
         try:
             response = requests.get(url, headers=headers, timeout=10)
             if response.status_code == 404:
-                raise UserNotFound(f"The user '{username}' could not be found.")
+                raise InstagramProfileNotFoundError(f"Instagram profile '{username}' not found.")
+            elif response.status_code == 429:
+                raise InstagramRateLimitError("Instagram rate limit reached")
             elif response.status_code != 200:
                 raise Exception(f"Instagram public API returned status code {response.status_code}")
                 
             data = response.json()
             if not data or "data" not in data or not data["data"] or "user" not in data["data"]:
-                raise UserNotFound(f"User '{username}' not found in public API response.")
+                raise InstagramProfileNotFoundError(f"Instagram profile '{username}' not found.")
                 
             user_data = data["data"]["user"]
             self._cache[username] = user_data
@@ -356,9 +363,17 @@ class InstagramService:
                 "is_verified": bool(profile.is_verified),
                 "follower_count": int(profile.followers),
                 "following_count": int(profile.followees),
-                "media_count": int(profile.mediacount)
+                "media_count": int(profile.mediacount),
+                "is_private": bool(profile.is_private)
             }
+        except instaloader.exceptions.ProfileNotExistsException as e:
+            raise InstagramProfileNotFoundError(f"Instagram profile '{username}' not found.")
         except Exception as e:
+            err_msg = str(e)
+            if "does not exist" in err_msg:
+                raise InstagramProfileNotFoundError(f"Instagram profile '{username}' not found.")
+            elif "429" in err_msg or "too many requests" in err_msg.lower():
+                raise InstagramRateLimitError("Instagram rate limit reached")
             raise Exception(f"Instaloader profile fetch failed: {e}")
 
     def _fetch_recent_posts_instaloader(self, username: str, limit: int = 12) -> List[Dict[str, Any]]:
@@ -607,6 +622,18 @@ class InstagramService:
                 page.on("response", handle_response)
 
                 page.goto(f"https://www.instagram.com/{username}/", timeout=60000)
+                 
+                # Check page title and content for not found or private status
+                title = page.title()
+                body_text = page.inner_text("body")
+                if "Page not found" in title or "Page Not Found" in title or "isn't available" in body_text or "link you followed may be broken" in body_text:
+                    context.close()
+                    raise InstagramProfileNotFoundError(f"Instagram profile '{username}' not found.")
+                
+                if "This Account is Private" in body_text or "This account is private" in body_text:
+                    context.close()
+                    raise InstagramProfilePrivateError("Instagram profile is private")
+
                 # Wait up to 10 seconds for web_profile_info to appear in intercepted list
                 for _ in range(20):
                     if any("web_profile_info" in r["url"] for r in intercepted_responses):
@@ -665,6 +692,9 @@ class InstagramService:
                         context.close()
                         return None
                 if raw_payload:
+                    if raw_payload.get("is_private"):
+                        context.close()
+                        raise InstagramProfilePrivateError("Instagram profile is private")
                     profile_pic = raw_payload.get("profile_pic_url_hd") or raw_payload.get("profile_pic_url", "")
                     profile = {
                         "username": raw_payload.get("username") or username,
@@ -867,8 +897,13 @@ class InstagramService:
                 use_playwright = False
             else:
                 logger.warning(f"SOURCE = {res['source']}")
+                if res["profile"].get("is_private") or res["profile"].get("account_status") == "private":
+                    raise InstagramProfilePrivateError("Instagram profile is private")
                 return res["profile"]
             
+        errors = []
+        rate_limit_occurred = False
+
         # 1. Attempt Playwright (DOM/API)
         if use_playwright:
             try:
@@ -880,31 +915,42 @@ class InstagramService:
                     self._scraped_cache[normalized_username] = res
                     logger.warning(f"SOURCE = {res['source']}")
                     logger.info(f"Successfully fetched profile for {username} via Playwright ({res['source']}).")
+                    if res["profile"].get("is_private"):
+                        raise InstagramProfilePrivateError("Instagram profile is private")
                     return res["profile"]
                 else:
                     self._scraped_cache[normalized_username] = {"failed": True}
+            except (InstagramProfileNotFoundError, InstagramProfilePrivateError) as e:
+                raise e
             except Exception as e:
                 self._scraped_cache[normalized_username] = {"failed": True}
                 logger.warning(f"Playwright failed to fetch profile for {username}: {e}")
+                errors.append(f"Playwright: {e}")
+                if "429" in str(e) or "too many requests" in str(e).lower() or isinstance(e, InstagramRateLimitError):
+                    rate_limit_occurred = True
 
         # 2. Attempt Instaloader
         try:
             profile_data = self._fetch_profile_instaloader(normalized_username)
+            if profile_data.get("is_private") or profile_data.get("account_status") == "private":
+                raise InstagramProfilePrivateError("Instagram profile is private")
             logger.warning("SOURCE = INSTALOADER")
             logger.info(f"Successfully fetched profile for {username} via Instaloader.")
             return profile_data
+        except (InstagramProfileNotFoundError, InstagramProfilePrivateError) as e:
+            raise e
         except Exception as e:
             logger.warning(f"Instaloader failed to fetch profile for {username}: {e}")
+            errors.append(f"Instaloader: {e}")
+            if "429" in str(e) or "too many requests" in str(e).lower() or isinstance(e, InstagramRateLimitError):
+                rate_limit_occurred = True
 
         # 3. Attempt web_profile_info
         try:
             user_data = self._fetch_web_profile_info(normalized_username)
             
             if user_data.get("is_private"):
-                return {
-                    "account_status": "private",
-                    "message": "Unable to access private account data"
-                }
+                raise InstagramProfilePrivateError("Instagram profile is private")
 
             profile_data = {
                 "username": user_data.get("username"),
@@ -920,14 +966,28 @@ class InstagramService:
             logger.warning("SOURCE = WEB_PROFILE_INFO")
             logger.info(f"Successfully fetched profile for {username} via web_profile_info.")
             return profile_data
+        except (InstagramProfileNotFoundError, InstagramProfilePrivateError) as e:
+            raise e
         except Exception as e:
             logger.warning(f"web_profile_info failed to fetch profile for {username}: {e}")
+            errors.append(f"web_profile_info: {e}")
+            if "429" in str(e) or "too many requests" in str(e).lower() or isinstance(e, InstagramRateLimitError):
+                rate_limit_occurred = True
 
         # 4. Fallback Data
         if normalized_username in FALLBACK_DATA:
             logger.warning("SOURCE = FALLBACK_DATA")
             logger.warning(f"Using presentation fallback profile data for {username}.")
             return FALLBACK_DATA[normalized_username]["profile"]
+
+        # Raise rate limit error if rate limited
+        if rate_limit_occurred:
+            raise InstagramRateLimitError("Instagram rate limit reached")
+
+        # Raise profile not found if any error explicitly suggests it
+        for err in errors:
+            if "not found" in err.lower() or "does not exist" in err.lower():
+                raise InstagramProfileNotFoundError(f"Instagram profile '{username}' not found.")
 
         raise Exception(f"Failed to fetch profile for {username} via Playwright, Instaloader, web_profile_info, and no fallback data available.")
 
@@ -949,6 +1009,9 @@ class InstagramService:
                 logger.warning(f"SOURCE = {res['source']}")
                 return res["posts"][:limit]
             
+        errors = []
+        rate_limit_occurred = False
+
         # 1. Attempt Playwright (DOM/API)
         if use_playwright:
             try:
@@ -963,9 +1026,14 @@ class InstagramService:
                     return res["posts"][:limit]
                 else:
                     self._scraped_cache[normalized_username] = {"failed": True}
+            except (InstagramProfileNotFoundError, InstagramProfilePrivateError) as e:
+                raise e
             except Exception as e:
                 self._scraped_cache[normalized_username] = {"failed": True}
                 logger.warning(f"Playwright failed to fetch posts for {username}: {e}")
+                errors.append(f"Playwright: {e}")
+                if "429" in str(e) or "too many requests" in str(e).lower() or isinstance(e, InstagramRateLimitError):
+                    rate_limit_occurred = True
 
         # 2. Attempt Instaloader
         try:
@@ -973,8 +1041,13 @@ class InstagramService:
             logger.warning("SOURCE = INSTALOADER")
             logger.info(f"Successfully fetched posts for {username} via Instaloader.")
             return posts
+        except (InstagramProfileNotFoundError, InstagramProfilePrivateError) as e:
+            raise e
         except Exception as e:
             logger.warning(f"Instaloader failed to fetch posts for {username}: {e}")
+            errors.append(f"Instaloader: {e}")
+            if "429" in str(e) or "too many requests" in str(e).lower() or isinstance(e, InstagramRateLimitError):
+                rate_limit_occurred = True
 
         # 3. Attempt web_profile_info
         try:
@@ -1011,14 +1084,26 @@ class InstagramService:
             logger.warning("SOURCE = WEB_PROFILE_INFO")
             logger.info(f"Successfully fetched posts for {username} via web_profile_info.")
             return posts
+        except (InstagramProfileNotFoundError, InstagramProfilePrivateError) as e:
+            raise e
         except Exception as e:
             logger.warning(f"web_profile_info failed to fetch posts for {username}: {e}")
+            errors.append(f"web_profile_info: {e}")
+            if "429" in str(e) or "too many requests" in str(e).lower() or isinstance(e, InstagramRateLimitError):
+                rate_limit_occurred = True
 
         # 4. Fallback Data
         if normalized_username in FALLBACK_DATA:
             logger.warning("SOURCE = FALLBACK_DATA")
             logger.warning(f"Using presentation fallback posts data for {username}.")
             return FALLBACK_DATA[normalized_username]["posts"][:limit]
+
+        if rate_limit_occurred:
+            raise InstagramRateLimitError("Instagram rate limit reached")
+
+        for err in errors:
+            if "not found" in err.lower() or "does not exist" in err.lower():
+                raise InstagramProfileNotFoundError(f"Instagram profile '{username}' not found.")
 
         raise Exception(f"Failed to fetch recent posts for {username} via Playwright, Instaloader, web_profile_info, and no fallback data available.")
 

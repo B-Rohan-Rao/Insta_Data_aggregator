@@ -4,6 +4,11 @@ from app.db import get_database
 from app.services.instagram import InstagramService
 from app.analytics import calculate_analytics
 from app.models import AnalyzeResponse
+from app.exceptions import (
+    InstagramProfileNotFoundError,
+    InstagramProfilePrivateError,
+    InstagramRateLimitError
+)
 
 app = FastAPI(title="Praja Insta Data Aggregator API")
 
@@ -55,11 +60,8 @@ def analyze_creator(username: str):
         profile_data = instagram_service.fetch_profile(username)
         
         # Check if profile retrieval failed or if it is private
-        if not profile_data or profile_data.get("account_status") == "private":
-            raise HTTPException(
-                status_code=400,
-                detail="Unable to fetch data. Profile is private or unavailable."
-            )
+        if not profile_data or profile_data.get("account_status") == "private" or profile_data.get("is_private"):
+            raise InstagramProfilePrivateError("Instagram profile is private")
             
         # 2. Fetch recent posts (limit 12)
         recent_posts = instagram_service.fetch_recent_posts(username, limit=12)
@@ -97,7 +99,13 @@ def analyze_creator(username: str):
             "posts": recent_posts
         }
         
+    except InstagramProfileNotFoundError as e:
+        raise HTTPException(status_code=404, detail="Instagram profile not found")
+    except InstagramProfilePrivateError as e:
+        raise HTTPException(status_code=400, detail="Instagram profile is private")
+    except InstagramRateLimitError as e:
+        raise HTTPException(status_code=429, detail="Instagram rate limit reached")
     except HTTPException as he:
         raise he
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail="Internal server error")

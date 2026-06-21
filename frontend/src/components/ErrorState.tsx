@@ -15,18 +15,18 @@ export default function ErrorState({ errorType, onRetry }: ErrorStateProps) {
         };
       case "private":
         return {
-          title: "Private Account",
+          title: "Private Profile",
           message: "This profile is private. We can only retrieve analytics and post history for public creator accounts.",
         };
       case "instagram_down":
         return {
-          title: "Instagram Unavailable",
+          title: "Instagram Temporarily Unavailable",
           message: "Instagram's servers are currently blocking requests or rate-limiting traffic. Please try again in a few minutes.",
         };
       case "backend_down":
       default:
         return {
-          title: "Backend Service Error",
+          title: "Analysis Failed",
           message: "Our server or database is temporarily unavailable. We will fall back to using offline mock data shortly, or you can retry the connection.",
         };
     }
