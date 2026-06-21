@@ -23,9 +23,9 @@ export default function LanguageCard({ username }: LanguageCardProps) {
   const dist = getLanguageDistribution();
 
   const items = [
-    { label: "Hinglish (Hindi in Latin script)", value: dist.hinglish, color: "bg-indigo-600", bg: "bg-indigo-50" },
-    { label: "English", value: dist.english, color: "bg-purple-600", bg: "bg-purple-50" },
-    { label: "Hindi (Devanagari script)", value: dist.hindi, color: "bg-cyan-600", bg: "bg-cyan-50" },
+    { label: "Hinglish (Hindi in Latin script)", value: dist.hinglish, color: "bg-gradient-to-r from-indigo-400 to-indigo-500", bg: "bg-indigo-50" },
+    { label: "English", value: dist.english, color: "bg-gradient-to-r from-purple-400 to-purple-500", bg: "bg-purple-50" },
+    { label: "Hindi (Devanagari script)", value: dist.hindi, color: "bg-gradient-to-r from-cyan-400 to-cyan-500", bg: "bg-cyan-50" },
   ];
 
   return (

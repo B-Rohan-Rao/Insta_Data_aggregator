@@ -30,7 +30,7 @@ export default function PostsGrid({ posts, followerCount }: PostsGridProps) {
 
   return (
     <div className="shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300 p-4 sm:p-5">
-      <h3 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+      <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
         <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
@@ -39,15 +39,15 @@ export default function PostsGrid({ posts, followerCount }: PostsGridProps) {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {posts.map((post, idx) => {
-          const isCollab = post.caption.toLowerCase().includes("#ad") || 
-                           post.caption.toLowerCase().includes("#sponsored") || 
-                           post.caption.toLowerCase().includes("#collab") || 
-                           post.caption.includes("@");
+          const isCollab = post.caption.toLowerCase().includes("#ad") ||
+            post.caption.toLowerCase().includes("#sponsored") ||
+            post.caption.toLowerCase().includes("#collab") ||
+            post.caption.includes("@");
 
           return (
             <div
               key={post.id}
-              className="group shadow-neumorphic hover:shadow-neumorphic-hover transition-all duration-300 p-3.5 flex flex-col justify-between space-y-2.5"
+              className="group bg-white border border-slate-100/80 rounded-2xl transition-all duration-300 p-3.5 flex flex-col justify-between space-y-2.5"
             >
               {/* Top Row: Post Number and ER */}
               <div className="flex items-center justify-between">
@@ -72,11 +72,10 @@ export default function PostsGrid({ posts, followerCount }: PostsGridProps) {
               <div className="space-y-2 pt-2 border-t border-slate-100">
                 <div className="flex items-center justify-between text-[11px]">
                   <span className="font-semibold text-slate-400">{formatDate(post.taken_at)}</span>
-                  <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
-                    isCollab 
-                      ? "bg-amber-50 text-amber-700 border border-amber-100/50" 
+                  <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${isCollab
+                      ? "bg-amber-50 text-amber-700 border border-amber-100/50"
                       : "bg-green-50 text-green-700 border border-green-100/50"
-                  }`}>
+                    }`}>
                     {isCollab ? "Sponsor / Tag" : "Organic"}
                   </span>
                 </div>

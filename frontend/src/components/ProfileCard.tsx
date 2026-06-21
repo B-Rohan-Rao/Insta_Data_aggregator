@@ -44,12 +44,6 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
           <div>
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1">
               <h2 className="text-xl font-bold text-slate-900">@{profile.username}</h2>
-              {profile.is_verified && (
-                <svg className="w-5 h-5 text-indigo-500 fill-current" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M6.267 3.455a.75.75 0 00-.707-.547H3.5a.75.75 0 00-.75.75v2.06c0 .278.155.534.4.671l1.455.819a.75.75 0 00.353.09h1.768a.75.75 0 00.707-.547l.835-2.846zM13.733 3.455a.75.75 0 01.707-.547H16.5a.75.75 0 01.75.75v2.06c0 .278-.155.534-.4.671l-1.455.819a.75.75 0 01-.353.09h-1.768a.75.75 0 01-.707-.547l-.835-2.846zM3.5 13.733a.75.75 0 00-.75.75V16.5a.75.75 0 00.75.75h2.06c.278 0 .534-.155.671-.4l.819-1.455a.75.75 0 00.09-.353V14.5a.75.75 0 00-.547-.707l-2.846-.835zM16.5 13.733a.75.75 0 01.75.75V16.5a.75.75 0 01-.75.75h-2.06c-.278 0-.534-.155-.671-.4l-.819-1.455a.75.75 0 01-.09-.353V14.5a.75.75 0 01.547-.707l2.846-.835z" clipRule="evenodd" />
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4.13-5.69a.02.02 0 00.02-.02z" clipRule="evenodd" />
-                </svg>
-              )}
             </div>
             <p className="text-sm font-semibold text-slate-500">{profile.full_name}</p>
           </div>

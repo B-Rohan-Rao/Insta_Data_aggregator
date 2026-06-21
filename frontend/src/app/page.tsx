@@ -201,10 +201,7 @@ export default function Home() {
             {/* Top Toolbar / Reset */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
               <div>
-                <h2 className="text-2xl font-extrabold text-slate-900">Intelligence Dashboard</h2>
-                <p className="text-xs text-slate-400 mt-1 font-semibold">
-                  ANALYZING CREATOR: <span className="text-indigo-600 font-bold uppercase">@{result.profile.username}</span>
-                </p>
+                <h2 className="text-2xl font-semibold text-slate-800">Intelligence Dashboard</h2>
               </div>
               <div className="flex items-center gap-3">
                 {/* API status pill in results view */}

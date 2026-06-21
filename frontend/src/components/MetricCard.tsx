@@ -60,12 +60,12 @@ export default function MetricCard({ value, label, trend, trendDirection, iconTy
   const getTrendStyles = () => {
     switch (trendDirection) {
       case "up":
-        return "bg-green-50 text-green-700 border-green-100";
+        return "bg-emerald-50 text-emerald-600 border-emerald-100/80";
       case "down":
-        return "bg-red-50 text-red-700 border-red-100";
+        return "bg-rose-50 text-rose-600 border-rose-100/80";
       case "neutral":
       default:
-        return "bg-slate-50 text-slate-600 border-slate-100";
+        return "bg-slate-50 text-slate-500 border-slate-200/60";
     }
   };
 
