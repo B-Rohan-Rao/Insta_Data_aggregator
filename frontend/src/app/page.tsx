@@ -117,7 +117,7 @@ export default function Home() {
             </div>
 
             <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
-              <h1 className="text-[2.4rem] leading-[1.05] sm:text-6xl lg:text-[6.5rem] xl:text-[8rem] font-black tracking-tight text-slate-900 select-none break-words">
+              <h1 className="text-[2.8rem] leading-[1.05] sm:text-7xl lg:text-[7.5rem] xl:text-[9.5rem] font-semibold tracking-tight text-slate-900 select-none break-words">
                 Analyse your{" "}
                 <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
                   Insta
